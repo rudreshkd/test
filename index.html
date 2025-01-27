@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine</title>
+    <style>
+        body {
+            margin: 0;
+            background: url('https://marketplace.canva.com/EAEvPRTwFtU/3/0/1600w/canva-beige-doodle-heart-desktop-wallpaper-zwtpUKFUbWs.jpg') repeat;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .question {
+            color: darkred;
+            font-size: 3rem;
+            font-family: 'Lucida Handwriting', cursive;
+            margin: 30px 0;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border: 2px solid darkred;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: pink;
+            color: darkred;
+            transition: transform 0.3s;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        #photo {
+            width: 200px;
+            height: auto;
+            border-radius: 50%;
+            border: 5px solid pink;
+            margin: 30px 0;
+        }
+
+        .flower-page {
+            text-align: center;
+            color: darkred;
+            font-family: 'Lucida Handwriting', cursive;
+            display: none;
+        }
+
+/*         .flowers {
+            margin-top: 40px;
+            position: relative;
+        } */
+
+
+        .petal {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background-color: pink;
+            border-radius: 50%;
+            animation: fall 3s linear infinite; /* Faster fall */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(400px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-page">
+        <img id="photo" src="IMG_2465.JPG" alt="Us">
+        <p class="question">Will you be my Valentine?</p>
+        <div class="buttons">
+            <button class="button" onclick="yesClicked()">Yes</button>
+            <button class="button" id="no-button" onclick="noClicked()">No</button>
+        </div>
+    </div>
+
+    <div class="flower-page" id="flower-page">
+        <p class="flower-text">I love you</p>
+        <div class="flowers">
+            <div id="petals"></div>
+        </div>
+    </div>
+
+    <script>
+        const noButton = document.getElementById('no-button');
+        const flowerPage = document.getElementById('flower-page');
+        const mainPage = document.getElementById('main-page');
+        const petalsContainer = document.getElementById('petals');
+
+        function yesClicked() {
+            goToFlowers();
+        }
+
+        function noClicked() {
+            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+        }
+
+        function goToFlowers() {
+            mainPage.style.display = 'none';
+            flowerPage.style.display = 'block';
+        }
+
+        // Generate petals from cursor position
+        document.body.addEventListener('mousemove', (event) => {
+            generatePetals(event.clientX, event.clientY);
+        });
+
+        function generatePetals(x, y) {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.style.left = `${x - 10}px`;  // Ensure petal is centered at cursor
+            petal.style.top = `${y - 10}px`;   // Ensure petal is centered at cursor
+            petal.style.animationDelay = `${Math.random() * 2}s`;  // Random delay for variation
+            petal.style.animationDuration = `${Math.random() * 2 + 3}s`;  // Faster fall duration
+            petalsContainer.appendChild(petal);
+        }
+    </script>
+</body>
+</html>
